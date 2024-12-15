@@ -27,7 +27,7 @@ Message:
 ${message}
 
 Best wishes,
-Your Website
+SophitTrainingco
       `;
 
       const result = await emailjs.send(
