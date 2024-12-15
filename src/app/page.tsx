@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import ExpandableCard from './ExpandableCard';
 import ServicesSection from './ServicesSection';
+import QualificationsSection from './QualificationsSection';
 
 // Navbar Component
 const Navbar = () => {
@@ -126,6 +127,7 @@ export default function Home() {
         </div>
       </section>
       <ServicesSection />
+      <QualificationsSection />
     </main>
   );
 }
