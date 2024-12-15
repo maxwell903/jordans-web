@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { ReactNode, useState, useCallback } from "react";
 import ExpandableCard from './ExpandableCard';
 import ServicesSection from './ServicesSection';
 import QualificationsSection from './QualificationsSection';
-import ContactSection from './ContactSection'
+import ContactSection from './ContactSection';
 
 // Navbar Component
-const Navbar = () => {
+const Navbar = ({ onAboutClick }: { onAboutClick: () => void }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -38,7 +38,13 @@ const Navbar = () => {
             >
               HOME
             </button>
-            {["ABOUT", "RESULTS", "SERVICES", "DIET CLIQUE", "CONTACT"].map((item) => (
+            <button
+              onClick={onAboutClick}
+              className="text-black-800 hover:text-amber-950 transition-colors cursor-pointer"
+            >
+              ABOUT
+            </button>
+            {["RESULTS", "SERVICES", "DIET CLIQUE", "CONTACT"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -54,12 +60,26 @@ const Navbar = () => {
   );
 };
 
-
 // Main Page Component
 export default function Home() {
+  const [isPhilosophyExpanded, setIsPhilosophyExpanded] = useState(false);
+
+  const handleAboutClick = useCallback(() => {
+    // First, ensure the card will be expanded
+    setIsPhilosophyExpanded(true);
+    
+    // Then scroll to the section after a brief delay to ensure expansion is visible
+    setTimeout(() => {
+      const aboutSection = document.getElementById('about-section');
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  }, []);
+
   return (
     <main className="min-h-screen bg-amber-0">
-      <Navbar />
+      <Navbar onAboutClick={handleAboutClick} />
       
       {/* Hero Section */}
       <section className="relative h-screen">
@@ -70,8 +90,6 @@ export default function Home() {
             alt="Hero Background"
             className="w-full h-full object-cover"
           />
-          {/* Overlay */}
-          
         </div>
         
         {/* Hero Content */}
@@ -110,12 +128,15 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-     {/* About Section */}
-<section className="py-20 bg-amber-50">
-  <div className="container mx-auto px-4">
-    <h2 className="text-2xl font-bold text-black-900 mb-8">My Philosophy</h2>
-    
-          <ExpandableCard title="'Some Super motivational quote with some poop and some more poop with just a tiny bit more poop you may be able to poop like me'  - Jordan Sopher">
+      <section id="about-section" className="py-20 bg-amber-50 scroll-mt-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold text-black-900 mb-8">My Philosophy</h2>
+          
+          <ExpandableCard 
+            title="'Some Super motivational quote with some poop and some more poop with just a tiny bit more poop you may be able to poop like me'  - Jordan Sopher"
+            isExpanded={isPhilosophyExpanded}
+            onExpandChange={setIsPhilosophyExpanded}
+          >
             <div className="space-y-4">
               <p className="text-black-900">
                 Welcome to a journey of transformation! As your dedicated personal trainer, 
@@ -140,6 +161,7 @@ export default function Home() {
           </ExpandableCard>
         </div>
       </section>
+
       <ServicesSection />
       <QualificationsSection />
       <ContactSection />

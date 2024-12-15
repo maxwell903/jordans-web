@@ -1,24 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ExpandableCardProps {
   title: string;
   children: React.ReactNode;
   className?: string;
+  isExpanded?: boolean;
+  onExpandChange?: (expanded: boolean) => void;
+  id?: string;
 }
 
-const ExpandableCard = ({ title, children, className = '' }: ExpandableCardProps) => {
+const ExpandableCard = ({ 
+  title, 
+  children, 
+  className = '',
+  isExpanded: externalIsExpanded,
+  onExpandChange,
+  id
+}: ExpandableCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Synchronize with external expanded state
+  useEffect(() => {
+    if (externalIsExpanded !== undefined) {
+      setIsExpanded(externalIsExpanded);
+    }
+  }, [externalIsExpanded]);
+
+  const handleToggle = () => {
+    const newExpandedState = !isExpanded;
+    setIsExpanded(newExpandedState);
+    onExpandChange?.(newExpandedState);
+  };
 
   return (
-    <div className={`w-full bg-amber-50 dark:bg-amber-50 rounded-lg shadow-md overflow-hidden border-1 border-black ${className}`}>
+    <div 
+      ref={cardRef}
+      id={id} 
+      className={`w-full bg-amber-50 dark:bg-amber-50 rounded-lg shadow-md overflow-hidden border-1 border-black ${className}`}
+    >
       <button
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={handleToggle}
         className="w-full px-6 py-4 flex items-center hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors relative"
       >
-        
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 w-full text-center">
-            
           {title}
         </h3>
         <motion.div
