@@ -5,9 +5,17 @@ import { ReactNode } from "react";
 import ExpandableCard from './ExpandableCard';
 import ServicesSection from './ServicesSection';
 import QualificationsSection from './QualificationsSection';
+import ContactSection from './ContactSection'
 
 // Navbar Component
 const Navbar = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <nav className="fixed top-0 w-full bg-amber-50/95 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-6">
@@ -15,16 +23,22 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <img 
-              src="/images/sophit_training_no_background (2).png" // Replace with your actual image path
+              src="/images/sophit_training_no_background (2).png"
               alt="Sophit Training Logo"
-              className="h-11 w-34" // Adjust size as needed
+              className="h-11 w-34"
             />
             <div className="text-2xl font-bold text-black-900">SophitTraining</div>
           </div>
           
           {/* Navigation Links */}
           <div className="hidden md:flex space-x-8">
-            {["HOME", "ABOUT", "RESULTS", "SERVICES", "DIET CLIQUE", "CONTACT"].map((item) => (
+            <button
+              onClick={scrollToTop}
+              className="text-black-800 hover:text-amber-950 transition-colors cursor-pointer"
+            >
+              HOME
+            </button>
+            {["ABOUT", "RESULTS", "SERVICES", "DIET CLIQUE", "CONTACT"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -128,6 +142,7 @@ export default function Home() {
       </section>
       <ServicesSection />
       <QualificationsSection />
+      <ContactSection />
     </main>
   );
 }
