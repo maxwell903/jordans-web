@@ -7,6 +7,7 @@ import ExpandableCard from './ExpandableCard';
 import ServicesSection from './ServicesSection';
 import QualificationsSection from './QualificationsSection';
 import ContactSection from './ContactSection';
+import QRCode from './QRCode';
 
 // Navbar Component
 const Navbar = ({ onAboutClick }: { onAboutClick: () => void }) => {
@@ -221,6 +222,7 @@ export default function Home() {
       <section id="contact-section">
       <ContactSection />
       </section>
+      <QRCode/>
     </main>
   );
 }
