@@ -31,6 +31,14 @@ const Navbar = ({ onAboutClick }: { onAboutClick: () => void }) => {
     }
   };
 
+  const scrollToResults = () => {
+    const qualificationsSection = document.getElementById('qualifications-section');
+    if (qualificationsSection) {
+      qualificationsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+
   return (
     <nav className="fixed top-0 w-full bg-amber-50/95 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-6">
@@ -59,24 +67,18 @@ const Navbar = ({ onAboutClick }: { onAboutClick: () => void }) => {
             >
               ABOUT
             </button>
-            <a
-              href="#results"
-              className="text-black-800 hover:text-amber-950 transition-colors"
-            >
-              RESULTS
-            </a>
             <button
               onClick={scrollToServices}
               className="text-black-800 hover:text-amber-950 transition-colors cursor-pointer"
             >
               SERVICES
             </button>
-            <a
-              href="#diet-clique"
+            <button
+              onClick={scrollToResults}
               className="text-black-800 hover:text-amber-950 transition-colors"
             >
-              DIET CLIQUE
-            </a>
+              QUALIFICATIONS
+            </button>
             <button
               onClick={scrollToContact}
               className="text-black-800 hover:text-amber-950 transition-colors cursor-pointer"
@@ -214,6 +216,7 @@ export default function Home() {
     <section id="services-section">
       <ServicesSection />
       </section>
+      <section id="qualifications-section"></section>
       <QualificationsSection />
       <section id="contact-section">
       <ContactSection />
