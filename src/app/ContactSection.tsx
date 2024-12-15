@@ -13,17 +13,33 @@ const ContactSection = () => {
     setStatus('sending');
     
     try {
-      // Replace these with your actual EmailJS service details
+      // Create a cleaner formatted message with subject
+      const formattedMessage = `
+Hello Jordan,
+
+You got a new message from:
+${email}
+
+Subject:
+${subject}
+
+Message:
+${message}
+
+Best wishes,
+Your Website
+      `;
+
       const result = await emailjs.send(
-        'YOUR_SERVICE_ID', // Get this from EmailJS
-        'YOUR_TEMPLATE_ID', // Get this from EmailJS
+        'service_8l4zstg', // Get this from EmailJS
+        'template_xnxpkek', // Get this from EmailJS
         {
           to_email: 'sophittrainingco@gmail.com',
           from_email: email,
           subject: subject,
-          message: message,
+          message: formattedMessage,
         },
-        'YOUR_PUBLIC_KEY' // Get this from EmailJS
+        'aNYpE71vR6lSuDBVc' // Get this from EmailJS
       );
 
       if (result.status === 200) {
