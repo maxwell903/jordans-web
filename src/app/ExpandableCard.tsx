@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 interface ExpandableCardProps {
   title: string;
@@ -20,6 +20,7 @@ const ExpandableCard = ({
 }: ExpandableCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
 
   // Synchronize with external expanded state
   useEffect(() => {
@@ -34,15 +35,40 @@ const ExpandableCard = ({
     onExpandChange?.(newExpandedState);
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 }
+    }
+  };
+
   return (
-    <div 
+    <motion.div 
       ref={cardRef}
       id={id} 
       className={`w-full bg-amber-50 dark:bg-amber-50 rounded-lg shadow-md overflow-hidden border-1 border-black ${className}`}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={containerVariants}
     >
-      <button
+      <motion.button
         onClick={handleToggle}
         className="w-full px-6 py-4 flex items-center hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors relative"
+        variants={itemVariants}
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 w-full text-center">
           {title}
@@ -69,7 +95,7 @@ const ExpandableCard = ({
             />
           </svg>
         </motion.div>
-      </button>
+      </motion.button>
       
       <AnimatePresence>
         {isExpanded && (
@@ -79,13 +105,16 @@ const ExpandableCard = ({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+            <motion.div 
+              className="px-6 py-4 border-t border-gray-200 dark:border-gray-700"
+              variants={itemVariants}
+            >
               {children}
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 
