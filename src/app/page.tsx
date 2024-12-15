@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -14,6 +15,20 @@ const Navbar = ({ onAboutClick }: { onAboutClick: () => void }) => {
       top: 0,
       behavior: 'smooth'
     });
+  };
+
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact-section');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToServices = () => {
+    const servicesSection = document.getElementById('services-section');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -44,15 +59,30 @@ const Navbar = ({ onAboutClick }: { onAboutClick: () => void }) => {
             >
               ABOUT
             </button>
-            {["RESULTS", "SERVICES", "DIET CLIQUE", "CONTACT"].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-black-800 hover:text-amber-950 transition-colors"
-              >
-                {item}
-              </a>
-            ))}
+            <a
+              href="#results"
+              className="text-black-800 hover:text-amber-950 transition-colors"
+            >
+              RESULTS
+            </a>
+            <button
+              onClick={scrollToServices}
+              className="text-black-800 hover:text-amber-950 transition-colors cursor-pointer"
+            >
+              SERVICES
+            </button>
+            <a
+              href="#diet-clique"
+              className="text-black-800 hover:text-amber-950 transition-colors"
+            >
+              DIET CLIQUE
+            </a>
+            <button
+              onClick={scrollToContact}
+              className="text-black-800 hover:text-amber-950 transition-colors cursor-pointer"
+            >
+              CONTACT
+            </button>
           </div>
         </div>
       </div>
@@ -60,15 +90,43 @@ const Navbar = ({ onAboutClick }: { onAboutClick: () => void }) => {
   );
 };
 
+// Contact Button Component with Animation
+const ContactButton = () => {
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact-section');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ 
+        opacity: 1, 
+        y: [0, -5, 0],
+        transition: {
+          y: {
+            repeat: Infinity,
+            duration: 2,
+            ease: "easeInOut"
+          }
+        }
+      }}
+      onClick={scrollToContact}
+      className="bg-black text-amber-50 px-8 py-3 rounded hover:bg-gray-800 transition-colors"
+    >
+      CONTACT ME
+    </motion.button>
+  );
+};
 // Main Page Component
 export default function Home() {
   const [isPhilosophyExpanded, setIsPhilosophyExpanded] = useState(false);
 
   const handleAboutClick = useCallback(() => {
-    // First, ensure the card will be expanded
     setIsPhilosophyExpanded(true);
     
-    // Then scroll to the section after a brief delay to ensure expansion is visible
     setTimeout(() => {
       const aboutSection = document.getElementById('about-section');
       if (aboutSection) {
@@ -83,7 +141,6 @@ export default function Home() {
       
       {/* Hero Section */}
       <section className="relative h-screen">
-        {/* Hero Image */}
         <div className="absolute inset-0">
           <img
             src="/images/jordan-blackswank.jpg"
@@ -92,7 +149,6 @@ export default function Home() {
           />
         </div>
         
-        {/* Hero Content */}
         <div className="relative h-full flex items-center">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl">
@@ -114,18 +170,12 @@ export default function Home() {
               >
                 PERSONAL TRAINER
               </motion.p>
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="bg-black text-amber-50 px-8 py-3 rounded hover:bg-gray-800 transition-colors"
-              >
-                CONTACT ME
-              </motion.button>
+              <ContactButton />
             </div>
           </div>
         </div>
       </section>
+
 
       {/* About Section */}
       <section id="about-section" className="py-20 bg-amber-50 scroll-mt-16">
@@ -161,10 +211,13 @@ export default function Home() {
           </ExpandableCard>
         </div>
       </section>
-
+    <section id="services-section">
       <ServicesSection />
+      </section>
       <QualificationsSection />
+      <section id="contact-section">
       <ContactSection />
+      </section>
     </main>
   );
 }
