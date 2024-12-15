@@ -9,10 +9,17 @@ import ServicesSection from './ServicesSection';
 const Navbar = () => {
   return (
     <nav className="fixed top-0 w-full bg-amber-50/95 backdrop-blur-sm z-50 shadow-sm">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="text-2xl font-bold text-black-900">SophitTraining</div>
+          <div className="flex items-center space-x-2">
+            <img 
+              src="/images/sophit_training_no_background (2).png" // Replace with your actual image path
+              alt="Sophit Training Logo"
+              className="h-11 w-34" // Adjust size as needed
+            />
+            <div className="text-2xl font-bold text-black-900">SophitTraining</div>
+          </div>
           
           {/* Navigation Links */}
           <div className="hidden md:flex space-x-8">
