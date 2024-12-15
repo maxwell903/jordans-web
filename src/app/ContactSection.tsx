@@ -132,7 +132,9 @@ SophitTrainingco
           </form>
         </motion.div>
       </div>
+      
     </section>
+    
   );
 };
 
