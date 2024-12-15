@@ -1,15 +1,46 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const ContactSection = () => {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // We'll implement Gmail integration later
-    console.log('Form submitted:', { email, subject, message });
+    setStatus('sending');
+    
+    try {
+      // Replace these with your actual EmailJS service details
+      const result = await emailjs.send(
+        'YOUR_SERVICE_ID', // Get this from EmailJS
+        'YOUR_TEMPLATE_ID', // Get this from EmailJS
+        {
+          to_email: 'sophittrainingco@gmail.com',
+          from_email: email,
+          subject: subject,
+          message: message,
+        },
+        'YOUR_PUBLIC_KEY' // Get this from EmailJS
+      );
+
+      if (result.status === 200) {
+        setStatus('success');
+        // Clear form
+        setEmail('');
+        setSubject('');
+        setMessage('');
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setStatus('error');
+      // Reset error message after 5 seconds
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   return (
@@ -34,6 +65,7 @@ const ContactSection = () => {
                          text-amber-50 placeholder-amber-50/50 focus:outline-none focus:border-amber-50/50
                          transition-colors"
                 required
+                disabled={status === 'sending'}
               />
             </div>
             <div>
@@ -46,6 +78,7 @@ const ContactSection = () => {
                          text-amber-50 placeholder-amber-50/50 focus:outline-none focus:border-amber-50/50
                          transition-colors"
                 required
+                disabled={status === 'sending'}
               />
             </div>
             <div>
@@ -58,16 +91,27 @@ const ContactSection = () => {
                          text-amber-50 placeholder-amber-50/50 focus:outline-none focus:border-amber-50/50
                          transition-colors resize-none"
                 required
+                disabled={status === 'sending'}
               />
             </div>
+            
+            {/* Status Messages */}
+            {status === 'success' && (
+              <div className="text-green-400 text-sm">Message sent successfully!</div>
+            )}
+            {status === 'error' && (
+              <div className="text-red-400 text-sm">Failed to send message. Please try again.</div>
+            )}
+            
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full px-8 py-3 bg-amber-50 text-black rounded-lg font-semibold
-                       hover:bg-amber-100 transition-colors"
+              whileHover={{ scale: status === 'sending' ? 1 : 1.02 }}
+              whileTap={{ scale: status === 'sending' ? 1 : 0.98 }}
+              className={`w-full px-8 py-3 bg-amber-50 text-black rounded-lg font-semibold
+                       transition-colors ${status === 'sending' ? 'opacity-70 cursor-not-allowed' : 'hover:bg-amber-100'}`}
               type="submit"
+              disabled={status === 'sending'}
             >
-              Send Message
+              {status === 'sending' ? 'Sending...' : 'Send Message'}
             </motion.button>
           </form>
         </motion.div>
