@@ -22,12 +22,13 @@ const AboutSection: React.FC<AboutSectionProps> = ({
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
             My Philosophy
           </h2>
           
           <ExpandableCard 
-            title="'Some Super motivational quote with some poop and some more poop with just a tiny bit more poop you may be able to poop like me' - Jordan Sopher"
+            title="
+            'You're not just building a body; you're building confidence, strength, and resilience. I believe that small changes compound to take you to heights previously thought impossible.'"
             isExpanded={isPhilosophyExpanded}
             onExpandChange={setIsPhilosophyExpanded}
           >

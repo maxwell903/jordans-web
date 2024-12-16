@@ -1,13 +1,5 @@
-import React from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
-import { useRef, useEffect } from 'react';
-
-interface QualificationItemProps {
-  title: string;
-  content: string;
-  imagePath: string;
-  index: number;
-}
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Qualification {
   title: string;
@@ -15,76 +7,46 @@ interface Qualification {
   imagePath: string;
 }
 
-const QualificationItem: React.FC<QualificationItemProps> = ({ title, content, imagePath, index }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const controls = useAnimation();
+interface QualificationCardProps extends Qualification {
+  // Extends the base Qualification interface
+}
 
-  useEffect(() => {
-    if (isInView) {
-      controls.start('visible');
-    }
-  }, [isInView, controls]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
-  };
-
-  const contentVariants = {
-    hidden: { x: -30, opacity: 0 },
-    visible: { 
-      x: 0, 
-      opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut", delay: 0.2 }
-    }
-  };
-
-  const imageVariants = {
-    hidden: { x: 30, opacity: 0 },
-    visible: { 
-      x: 0, 
-      opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut", delay: 0.3 }
-    }
-  };
+const QualificationCard: React.FC<QualificationCardProps> = ({ title, content, imagePath }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <motion.div
-      ref={ref}
-      variants={containerVariants}
-      initial="hidden"
-      animate={controls}
-      className="mb-24 last:mb-0" // Increased spacing between items
+    <motion.div 
+      className="relative aspect-square rounded-lg overflow-hidden cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => setIsExpanded(!isExpanded)}
     >
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start"> {/* Changed to items-start */}
-        {/* Text Content */}
-        <motion.div 
-          variants={contentVariants} 
-          className="md:col-span-7 space-y-4"
-        >
-          <h3 className="text-2xl font-bold text-black">{title}</h3>
-          <div className="text-gray-700 pr-8">{content}</div> {/* Added right padding */}
-        </motion.div>
+      {/* Image */}
+      <img
+        src={imagePath}
+        alt={title}
+        className="w-full h-full object-cover"
+      />
 
-        {/* Image Container */}
-        <motion.div 
-          variants={imageVariants}
-          className={`md:col-span-5 relative w-full ${
-                       title === "Credentials" ? "aspect-square" : "aspect-[4/3]"
-                    }`}
-        >
-          <div className="absolute inset-0 rounded-lg overflow-hidden">
-            <img
-              src={imagePath}
-              alt={`${title} illustration`}
-              className={`w-full h-full ${
-                               title === "Credentials" ? "object-contain p-4" : "object-cover object-center"
-                             }`}
-            />
-          </div>
-        </motion.div>
+      {/* Title Overlay (Always Visible) */}
+      <div className="absolute inset-x-0 top-0 bg-black/50 p-4">
+        <h3 className="text-xl font-bold text-amber-50 text-center">{title}</h3>
       </div>
+
+      {/* Content Overlay (On Hover/Click) */}
+      <AnimatePresence>
+        {(isHovered || isExpanded) && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/80 p-6 flex items-center justify-center"
+          >
+            <p className="text-amber-50 text-center">{content}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
@@ -116,16 +78,25 @@ const QualificationsSection: React.FC = () => {
   return (
     <section className="py-20 bg-amber-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-black mb-16">Qualifications</h2>
-        <div className="max-w-7xl mx-auto">
-          {qualifications.map((qual, index) => (
-            <QualificationItem
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl font-bold text-black text-center mb-16"
+        >
+          Qualifications
+        </motion.h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {qualifications.map((qual) => (
+            <motion.div
               key={qual.title}
-              title={qual.title}
-              content={qual.content}
-              imagePath={qual.imagePath}
-              index={index}
-            />
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <QualificationCard {...qual} />
+            </motion.div>
           ))}
         </div>
       </div>
