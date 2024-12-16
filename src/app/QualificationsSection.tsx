@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Qualification {
@@ -14,6 +14,12 @@ interface QualificationCardProps extends Qualification {
 const QualificationCard: React.FC<QualificationCardProps> = ({ title, content, imagePath }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isHoverableDevice, setIsHoverableDevice] = useState(false);
+
+  useEffect(() => {
+    // Check for hover capability after component mounts
+    setIsHoverableDevice(window.matchMedia('(hover: hover)').matches);
+  }, []);
 
   const handleClick = () => {
     setIsExpanded(!isExpanded);
@@ -22,9 +28,6 @@ const QualificationCard: React.FC<QualificationCardProps> = ({ title, content, i
       setIsHovered(false);
     }
   };
-
-  // Determine if device supports hover
-  const isHoverableDevice = window.matchMedia('(hover: hover)').matches;
 
   return (
     <motion.div 
