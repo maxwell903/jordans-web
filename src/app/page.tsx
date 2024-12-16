@@ -128,10 +128,18 @@ const Footer = () => {
     <footer className="bg-black py-4">
       <div className="container mx-auto px-4 text-center space-y-2">
         <a 
+          href="https://www.linkedin.com/in/jordan-sopher-75a712224/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-amber-50 text-sm hover:text-amber-100 transition-colors block"
+        >
+          LinkedIn: Jordan Sopher
+        </a>
+        <a 
           href="https://www.instagram.com/jordan.sopher" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="text-amber-50 text-sm hover:text-amber-100 transition-colors"
+          className="text-amber-50 text-sm hover:text-amber-100 transition-colors block"
         >
           Instagram: @jordan.sopher
         </a>

@@ -34,17 +34,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({
           >
             <div className="prose prose-sm max-w-none">
               <p className="text-gray-800 mb-4">
-                Welcome to a journey of transformation! As your dedicated personal trainer, 
-                I believe in creating personalized fitness experiences that align with your unique goals 
-                and lifestyle. With over a decade of experience in fitness training, I've helped 
-                hundreds of clients achieve their dream physique and optimal health.
+              Welcome to your journey of transformation! As your dedicated personal trainer, I believe in creating personalized fitness experiences that align with your unique goals and lifestyle. Through spending over 10 years of my life in competitive athletic sports I’ve gained an understanding of what it takes to make measurable progress towards fitness goals. My passion today now lies in utilizing this knowledge to guide clients towards achieving results they never dreamed possible.
               </p>
               <p className="text-gray-800 mb-4">
-                Whether you're just starting your fitness journey or looking to break through 
-                plateaus, my comprehensive approach combines cutting-edge training techniques 
-                with sustainable nutrition plans. Together, we'll create a roadmap to your 
-                success that goes beyond just physical transformation – we'll build habits 
-                that last a lifetime.
+              Whether you're just starting your fitness journey or looking to break through plateaus, my comprehensive approach combines cutting-edge training techniques and sustainable nutrition plans. Together, we'll create a roadmap to your success that goes beyond just physical transformation – lets build habits that last a lifetime.
               </p>
               <ul className="list-disc pl-5 space-y-2 text-gray-800">
                 <li>Customized workout programs</li>
