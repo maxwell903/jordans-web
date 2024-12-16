@@ -43,7 +43,7 @@ const QualificationCard: React.FC<QualificationCardProps> = ({ title, content, i
             exit={{ opacity: 0 }}
             className="absolute inset-0 bg-black/80 p-6 flex items-center justify-center"
           >
-            <p className="text-amber-50 text-center">{content}</p>
+            <p className="text-amber-50 text-center leading-relaxed">{content}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -54,23 +54,23 @@ const QualificationCard: React.FC<QualificationCardProps> = ({ title, content, i
 const QualificationsSection: React.FC = () => {
   const qualifications: Qualification[] = [
     {
-      title: "Credentials",
-      content: "Level 3 Personal Training certification with additional specializations in nutrition and strength training. Certified by leading industry bodies with continuous professional development in modern fitness methodologies and techniques.",
+      title: "NSCA Personal trainer",
+      content: "As an NSCA Certified Personal Trainer (NSCA-CPT), I bring a wealth of knowledge and expertise to help you achieve your fitness goals. The NSCA is a globally recognized organization known for its high standards in fitness education and training. To earn this certification, I completed rigorous coursework covering exercise science, biomechanics, nutrition, and program design. This foundation allows me to create safe, effective, and results-driven training programs tailored to your individual needs. With this credential, I can guide you with confidence, blending proven science with practical strategies to deliver the best results.",
       imagePath: "/images/certification.png"
     },
     {
-      title: "Body Building",
-      content: "Multiple competition placements in regional bodybuilding championships. Extensive experience in contest prep and physique transformation, applying practical knowledge gained through years of personal competitive experience.",
+      title: "Bodybuilding",
+      content: "I've not only competed in, but also placed in several bodybuilding competitions, which has given me firsthand experience in the dedication and discipline it takes to succeed in this demanding sport. From detailed meal planning and intense training regimens during prep to posing techniques and stage presentation, I understand every aspect of the journey. Whether you're preparing for your first show or aiming to improve your competition ranking, I can guide you through the process with expert advice and support. My experience ensures that you'll have a structured plan to build your best physique and confidently step on stage.",
       imagePath: "/images/bodybuilding-image.jpg"
     },
     {
       title: "Modeling",
-      content: "Featured fitness model for major sports brands and magazines. Professional experience in fitness photography and social media content creation, showcasing the results of dedicated training and nutrition protocols.",
+      content: "With a background in fit modeling and physique modeling, I understand the unique demands of the industry and the skills required to succeed. From achieving an aesthetically pleasing physique to navigating the expectations of the modeling world, I can help you prepare for success. My coaching focuses on building a balanced, healthy approach to dieting and training, steering clear of mentally unhealthy habits often seen in appearance-based industries. Whether your goal is to improve your physique or break into modeling, I'll provide the guidance to achieve your aspirations in a sustainable, confidence-boosting way.",
       imagePath: "/images/modeling-image.jpg"
     },
     {
-      title: "Health And Safety",
-      content: "Comprehensive certifications in first aid and injury prevention. Specialized training in proper form and technique, ensuring safe and effective workout environments for clients of all fitness levels.",
+      title: "CPR/AED Certification",
+      content: "Your health and safety are my top priorities, which is why I'm CPR/AED certified. This credential ensures that I'm fully prepared to handle any medical emergency that may arise during our training sessions. Being trained in life-saving techniques gives you peace of mind, knowing that you're in safe, capable hands. Health and safety are the foundation of effective training, and I'm committed to creating an environment where you can focus on achieving your fitness goals without worry. Your well-being always comes first when training with me.",
       imagePath: "/images/CPR.jpg"
     }
   ];

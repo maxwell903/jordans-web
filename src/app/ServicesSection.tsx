@@ -163,7 +163,7 @@ const ServicesSection = () => {
           </div>
         </div>
       ),
-      image: '/images/training-program-image.jpg'
+      image: '/images/training-plan-image.png'
     },
   ];
 
