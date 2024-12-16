@@ -15,42 +15,91 @@ const QualificationCard: React.FC<QualificationCardProps> = ({ title, content, i
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  const handleClick = () => {
+    setIsExpanded(!isExpanded);
+    // If transitioning to expanded state, remove hover state
+    if (!isExpanded) {
+      setIsHovered(false);
+    }
+  };
+
+  // Determine if device supports hover
+  const isHoverableDevice = window.matchMedia('(hover: hover)').matches;
+
   return (
     <motion.div 
       className="relative aspect-square rounded-lg overflow-hidden cursor-pointer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={() => setIsExpanded(!isExpanded)}
+      onMouseEnter={() => isHoverableDevice && setIsHovered(true)}
+      onMouseLeave={() => isHoverableDevice && setIsHovered(false)}
+      onClick={handleClick}
     >
-      {/* Image */}
-      <img
+      {/* Image with blur effect when content is shown */}
+      <motion.img
         src={imagePath}
         alt={title}
         className="w-full h-full object-cover"
+        animate={{
+          filter: (isHovered || isExpanded) ? 'blur(3px)' : 'blur(0px)',
+          scale: (isHovered || isExpanded) ? 1.05 : 1
+        }}
+        transition={{ duration: 0.3 }}
       />
 
       {/* Title Overlay (Always Visible) */}
-      <div className="absolute inset-x-0 top-0 bg-black/50 p-4">
+      <motion.div 
+        className="absolute inset-x-0 top-0 bg-black/50 p-4"
+        animate={{
+          backgroundColor: (isHovered || isExpanded) ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)'
+        }}
+        transition={{ duration: 0.3 }}
+      >
         <h3 className="text-lg md:text-xl font-bold text-amber-50 text-center">{title}</h3>
-      </div>
+      </motion.div>
 
       {/* Content Overlay (On Hover/Click) */}
       <AnimatePresence>
         {(isHovered || isExpanded) && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ 
+              duration: 0.3,
+              ease: "easeInOut"
+            }}
             className="absolute inset-0 bg-black/80 flex items-center justify-center"
           >
-            <div className="p-3 md:p-6 overflow-y-auto max-h-full">
+            <motion.div 
+              className="p-3 md:p-6 overflow-y-auto max-h-full"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
               <p className="text-xs sm:text-sm md:text-base lg:text-lg text-amber-50 text-center leading-relaxed">
                 {content}
               </p>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile Tap Indicator */}
+      {!isHoverableDevice && !isExpanded && (
+        <div className="absolute bottom-2 right-2">
+          <motion.div
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ 
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+            className="w-6 h-6 bg-amber-50/80 rounded-full flex items-center justify-center"
+          >
+            <span className="text-black text-xs">tap</span>
+          </motion.div>
+        </div>
+      )}
     </motion.div>
   );
 };
