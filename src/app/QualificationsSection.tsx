@@ -31,7 +31,7 @@ const QualificationCard: React.FC<QualificationCardProps> = ({ title, content, i
 
       {/* Title Overlay (Always Visible) */}
       <div className="absolute inset-x-0 top-0 bg-black/50 p-4">
-        <h3 className="text-xl font-bold text-amber-50 text-center">{title}</h3>
+        <h3 className="text-lg md:text-xl font-bold text-amber-50 text-center">{title}</h3>
       </div>
 
       {/* Content Overlay (On Hover/Click) */}
@@ -41,9 +41,13 @@ const QualificationCard: React.FC<QualificationCardProps> = ({ title, content, i
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/80 p-6 flex items-center justify-center"
+            className="absolute inset-0 bg-black/80 flex items-center justify-center"
           >
-            <p className="text-amber-50 text-center leading-relaxed">{content}</p>
+            <div className="p-3 md:p-6 overflow-y-auto max-h-full">
+              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-amber-50 text-center leading-relaxed">
+                {content}
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -76,18 +80,18 @@ const QualificationsSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-amber-50">
+    <section className="py-12 md:py-20 bg-amber-50">
       <div className="container mx-auto px-4">
         <motion.h2 
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl font-bold text-black text-center mb-16"
+          className="text-2xl md:text-3xl font-bold text-black text-center mb-8 md:mb-16"
         >
           Qualifications
         </motion.h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-5xl mx-auto">
           {qualifications.map((qual) => (
             <motion.div
               key={qual.title}

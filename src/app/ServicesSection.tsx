@@ -203,17 +203,17 @@ const ServicesSection = () => {
             Services
           </motion.h2>
           
-          {/* Tab Buttons */}
+          {/* Tab Buttons - Made scrollable for mobile */}
           <motion.div 
             variants={itemVariants}
-            className="flex flex-wrap gap-4 mb-8"
+            className="flex overflow-x-auto pb-2 mb-8 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-x-visible md:flex-wrap gap-4"
           >
             {tabs.map((tab) => (
               <motion.button
                 key={tab.id}
                 variants={itemVariants}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 rounded-lg text-black transition-colors ${
+                className={`px-6 py-3 rounded-lg text-black transition-colors flex-shrink-0 ${
                   activeTab === tab.id ? 'bg-amber-50' : 'bg-amber-50/80 hover:bg-amber-50/90'
                 }`}
               >
@@ -222,13 +222,13 @@ const ServicesSection = () => {
             ))}
           </motion.div>
 
-          {/* Content and Image Area */}
+          {/* Content and Image Area - Modified for better mobile layout */}
           <motion.div 
             variants={itemVariants}
-            className="grid md:grid-cols-2 gap-8"
+            className="flex flex-col lg:grid lg:grid-cols-2 gap-8"
           >
-            {/* Content Side */}
-            <div className="relative min-h-[200px]">
+            {/* Content Side - Now always full width on mobile */}
+            <div className="relative">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -236,17 +236,17 @@ const ServicesSection = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute w-full"
+                  className="w-full"
                 >
-                  <div className="text-amber-50 text-left">
+                  <div className="text-amber-50">
                     {tabs.find(tab => tab.id === activeTab)?.content}
                   </div>
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            {/* Image Side */}
-            <div className="relative h-[615px] overflow-hidden rounded-lg">
+            {/* Image Side - Now below content on mobile */}
+            <div className="relative h-[400px] lg:h-[615px] overflow-hidden rounded-lg">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
